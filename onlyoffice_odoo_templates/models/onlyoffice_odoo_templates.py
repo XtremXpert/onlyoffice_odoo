@@ -121,13 +121,13 @@ class OnlyOfficeTemplate(models.Model):
                     }
                 )
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals_list):
         results = []
         for vals in vals_list:
             vals_copy = vals.copy()
 
-            url = self._context.get("url", None)
+            url = self.env.context.get("url", None)
             if isinstance(url, str) and url.startswith(("http://", "https://")) and url.endswith(".pdf"):
                 try:
                     response = onlyoffice_request(
