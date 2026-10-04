@@ -8,6 +8,8 @@ import zipfile
 from datetime import datetime
 from urllib.parse import quote
 
+from pypdf import PdfReader
+
 from odoo import http
 from odoo.http import request
 from odoo.tools import (
@@ -265,6 +267,13 @@ class OnlyofficeTemplate_Connector(http.Controller):
 
     def get_keys(self, attachment_id, oo_security_token):
         logger.info("get_keys - attachment: %s", attachment_id)
+        # Lecture directe des champs du formulaire PDF : évite une seconde tâche
+        # docbuilder lancée depuis la première, qui s'interbloque sur un Document
+        # Server Community (un seul worker de conversion).
+        keys = self._get_pdf_form_keys(attachment_id)
+        if keys is not None:
+            logger.info("get_keys - %s keys read from the PDF form", len(keys))
+            return keys
         docserver_url = config_utils.get_doc_server_public_url(request.env)
         docserver_url = url_utils.replace_public_url_to_internal(request.env, docserver_url)
         docbuilder_url = f"{docserver_url}docbuilder"
@@ -318,6 +327,21 @@ class OnlyofficeTemplate_Connector(http.Controller):
         except Exception as e:
             logger.warning("get_keys - error: %s", str(e))
             raise
+
+    def _get_pdf_form_keys(self, attachment_id):
+        """Return the form keys of the template PDF (field names, possibly an
+        empty list), or None if the PDF cannot be read here (the docbuilder path
+        is then used)."""
+        try:
+            attachment = request.env["ir.attachment"].sudo().browse(int(attachment_id))
+            raw = bytes(attachment.raw) if attachment.raw else b""
+            if not raw:
+                return None
+            fields = PdfReader(io.BytesIO(raw)).get_fields() or {}
+            return list(dict.fromkeys(fields))
+        except Exception as e:  # noqa: BLE001
+            logger.warning("get_keys - cannot read the PDF form locally: %s", e)
+            return None
 
     @http.route("/onlyoffice/template/callback/docbuilder/get_keys", auth="public")
     def docbuilder_get_keys(self, attachment_id, oo_security_token):
