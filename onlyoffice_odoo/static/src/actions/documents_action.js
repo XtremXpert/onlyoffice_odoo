@@ -7,9 +7,13 @@ import { rpc } from "@web/core/network/rpc"
 import { registry } from "@web/core/registry"
 import { useService } from "@web/core/utils/hooks"
 
-const { Component, onMounted } = owl
+import { Component, onMounted, useProps } from "@odoo/owl"
+import { standardActionServiceProps } from "@web/webclient/actions/action_plugin"
 
 export class DocumentsAction extends Component {
+  // Odoo 20 / OWL 3 : les actions client déclarent leurs props
+  props = useProps(standardActionServiceProps)
+
   setup() {
     super.setup()
     this.rpc = rpc

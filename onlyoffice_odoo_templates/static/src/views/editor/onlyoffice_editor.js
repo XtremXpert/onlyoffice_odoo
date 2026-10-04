@@ -9,9 +9,13 @@ import { registry } from "@web/core/registry"
 import { useBus, useService } from "@web/core/utils/hooks"
 import { ExportData } from "./onlyoffice_editor_export_data"
 
-const { Component, useState, onMounted, onWillUnmount } = owl
+import { Component, onMounted, onWillUnmount, proxy, useProps } from "@odoo/owl"
+import { standardActionServiceProps } from "@web/webclient/actions/action_plugin"
 
 class TemplateEditor extends Component {
+  // Odoo 20 / OWL 3 : les actions client déclarent leurs props
+  props = useProps(standardActionServiceProps)
+
   setup() {
     super.setup(...arguments)
     this.orm = useService("orm")
@@ -20,7 +24,7 @@ class TemplateEditor extends Component {
     this.notificationService = useService("notification")
     this.router = router
 
-    this.state = useState({
+    this.state = proxy({
       resModel: "",
       hasLicense: false,
     })

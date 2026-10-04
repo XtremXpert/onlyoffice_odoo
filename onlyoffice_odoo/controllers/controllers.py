@@ -16,6 +16,8 @@ from werkzeug.exceptions import Forbidden
 from odoo import _, fields, http
 from odoo.exceptions import AccessError, UserError
 from odoo.http import request
+from odoo.http.dispatcher import serialize_exception
+from odoo.tools.json import json_default
 
 from odoo.addons.onlyoffice_odoo.utils import config_utils, file_utils, jwt_utils, url_utils
 
@@ -158,7 +160,7 @@ class Onlyoffice_Connector(http.Controller):
 
             jwt_utils.decode_token(request.env, token)
 
-        stream = request.env["ir.binary"]._get_stream_from(attachment, "datas", None, "name", None)
+        stream = request.env["ir.binary"]._get_stream_from(attachment, "raw", None, "name", None)
 
         send_file_kwargs = {"as_attachment": True, "max_age": None}
 
@@ -191,8 +193,8 @@ class Onlyoffice_Connector(http.Controller):
 
         _logger.info("GET /onlyoffice/editor/%s - success", attachment_id)
         values = self.prepare_editor_values(attachment, access_token, can_write)
-        values["editorConfig"] = markupsafe.Markup(json.dumps(values["editorConfig"]))
-        values["session_info"] = markupsafe.Markup(json.dumps(values["session_info"]))
+        values["editorConfig"] = markupsafe.Markup(json.dumps(values["editorConfig"], default=json_default))
+        values["session_info"] = markupsafe.Markup(json.dumps(values["session_info"], default=json_default))
         return request.render("onlyoffice_odoo.onlyoffice_editor", values)
 
     @http.route(
@@ -236,7 +238,7 @@ class Onlyoffice_Connector(http.Controller):
                 file_url = url_utils.replace_public_url_to_internal(request.env, body.get("url"))
                 datas = onlyoffice_urlopen(file_url).read()
                 if attachment.res_model == "documents.document":
-                    datas = base64.encodebytes(datas)
+                    datas = base64.b64encode(datas).decode()  # Odoo 20 : base64 en str
                     document = request.env["documents.document"].browse(int(attachment.res_id))
 
                     document.with_user(user).write(
@@ -256,7 +258,7 @@ class Onlyoffice_Connector(http.Controller):
         except Exception as ex:
             _logger.error("POST /onlyoffice/editor/callback/%s - error: %s", attachment_id, str(ex))
             response_json["error"] = 1
-            response_json["message"] = http.serialize_exception(ex)
+            response_json["message"] = serialize_exception(ex)
 
         return request.make_response(
             data=json.dumps(response_json),
@@ -512,7 +514,7 @@ class Onlyoffice_Connector(http.Controller):
                 "docIcon": f"/onlyoffice_odoo/static/description/editor_icons/{document_type}.ico",
                 "docApiJS": f"{docserver_url}web-apps/apps/api/documents/api.js?shardkey={key}",
                 "editorConfig": markupsafe.Markup(json.dumps(root_config)),
-                "session_info": markupsafe.Markup(json.dumps(session_info)),
+                "session_info": markupsafe.Markup(json.dumps(session_info, default=json_default)),
             },
         )
 

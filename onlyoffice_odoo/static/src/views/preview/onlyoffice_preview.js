@@ -1,16 +1,17 @@
 /** @odoo-module **/
 // Copyright (C) 2026 Ascensio System SIA
 
-import { Component, onMounted, onWillUnmount } from "@odoo/owl"
+import { Component, onMounted, onWillUnmount, t, useProps } from "@odoo/owl"
 
 export class OnlyofficePreview extends Component {
   static template = "onlyoffice_odoo.OnlyofficePreview"
 
-  static props = {
-    close: Function,
-    title: String,
-    url: String,
-  }
+  // Odoo 20 / OWL 3 : props déclarées par useProps
+  props = useProps({
+    close: t.function(),
+    title: t.string(),
+    url: t.string(),
+  })
 
   setup() {
     this.title = "Preview - " + this.props.title

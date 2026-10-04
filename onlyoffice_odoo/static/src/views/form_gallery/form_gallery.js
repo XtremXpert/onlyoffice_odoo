@@ -10,7 +10,7 @@ import { rpc } from "@web/core/network/rpc"
 import { Pager } from "@web/core/pager/pager"
 import { useService } from "@web/core/utils/hooks"
 
-const { Component, useState, onWillStart, onWillUnmount } = owl
+import { Component, onWillStart, onWillUnmount, proxy, t, useProps } from "@odoo/owl"
 
 export class FormGallery extends Component {
   static template = "onlyoffice_odoo.FormGallery"
@@ -22,6 +22,13 @@ export class FormGallery extends Component {
     Pager,
   }
 
+  // Odoo 20 / OWL 3 : props déclarées par useProps, état réactif par proxy
+  props = useProps({
+    close: t.function(),
+    onDownload: t.function().optional(),
+    showType: t.boolean().optional(),
+  })
+
   setup() {
     this.title = _t("Document templates")
     this.action = useService("action")
@@ -31,7 +38,7 @@ export class FormGallery extends Component {
 
     this.searchTimeout = null
 
-    this.state = useState({
+    this.state = proxy({
       categories: [],
       error: null,
       form: null,

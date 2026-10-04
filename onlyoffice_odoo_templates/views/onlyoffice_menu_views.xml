@@ -127,7 +127,7 @@
             <a t-if="widget.editable" type="open" class="dropdown-item">Edit</a>
             <a t-if="widget.deletable" type="delete" class="dropdown-item">Delete</a>
             <a
-              t-attf-href="/web/content/ir.attachment/#{record.attachment_id.raw_value}/datas?download=true"
+              t-attf-href="/web/content/ir.attachment/#{record.attachment_id.raw_value}/raw?download=true"
               download=""
               class="dropdown-item"
             >Download</a>

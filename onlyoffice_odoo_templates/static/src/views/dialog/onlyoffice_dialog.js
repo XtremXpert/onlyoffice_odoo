@@ -15,9 +15,17 @@ import { SearchModel } from "@web/search/search_model"
 import { getDefaultConfig } from "@web/views/view"
 import { FolderSelectionDialog } from "./folder_selection_dialog"
 
-const { Component, useState, useSubEnv, useChildSubEnv, onWillStart } = owl
+import { Component, onWillStart, proxy, t, useProps, useSubEnv } from "@odoo/owl"
 
 export class TemplateDialog extends Component {
+  // Odoo 20 / OWL 3 : props déclarées par useProps
+  props = useProps({
+    close: t.function().optional(),
+    context: t.object().optional(),
+    resId: t.any(),
+    resModel: t.string(),
+  })
+
   setup() {
     this.orm = useService("orm")
     this.rpc = rpc
@@ -30,7 +38,7 @@ export class TemplateDialog extends Component {
 
     this.dialogTitle = _t("Print from template")
     this.limit = 8
-    this.state = useState({
+    this.state = proxy({
       currentOffset: 0,
       documentsAvailable: false,
       isOpen: true,
@@ -42,12 +50,18 @@ export class TemplateDialog extends Component {
 
     useSubEnv({ config: { ...getDefaultConfig() } })
 
+    // Odoo 20 : le SearchModel attend les mêmes services que WithSearch
     this.model = new SearchModel(this.env, {
+      dialog: useService("dialog"),
+      field: useService("field"),
+      name: useService("name"),
       orm: this.orm,
+      treeProcessor: useService("tree_processor"),
       view: useService("view"),
     })
 
-    useChildSubEnv({ searchModel: this.model })
+    // useChildSubEnv n'existe plus : useSubEnv s'applique aussi aux enfants
+    useSubEnv({ searchModel: this.model })
 
     this.dp = new KeepLast()
 

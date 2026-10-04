@@ -8,6 +8,8 @@ import { OnlyofficeKanbanRenderer } from "./onlyoffice_kanban_renderer"
 
 export const onlyofficeKanbanView = {
   ...kanbanView,
+  // Odoo 20 : les boutons du panneau de contrôle sont un gabarit à part
+  buttonTemplate: "onlyoffice_odoo_templates.KanbanView.Buttons",
   Controller: OnlyofficeKanbanController,
   Renderer: OnlyofficeKanbanRenderer,
 }

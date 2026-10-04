@@ -80,7 +80,7 @@ class IrActionsReport(models.Model):
 
                     # Extract the stream from the attachment.
                     if attachment and report_sudo.attachment_use:
-                        stream = io.BytesIO(attachment.raw)
+                        stream = io.BytesIO(bytes(attachment.raw))
 
                         # Ensure the stream can be saved in Image.
                         if attachment.mimetype.startswith("image"):

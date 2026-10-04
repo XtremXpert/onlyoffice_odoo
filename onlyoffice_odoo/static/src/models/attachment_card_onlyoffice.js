@@ -60,7 +60,10 @@ patch(AttachmentList.prototype, {
       }
       return this.actionService.doAction(action)
     }
-    const accessTokenQuery = attachment.accessToken ? `?access_token=${attachment.accessToken}` : ""
+    // Odoo 20 : accessToken -> access_token (raw_access_token est un jeton
+    // signé distinct, refusé par ir.attachment._can_return_content)
+    const accessToken = attachment.access_token
+    const accessTokenQuery = accessToken ? `?access_token=${accessToken}` : ""
     window.open(`/onlyoffice/editor/${attachment.id}${accessTokenQuery}`, "_blank")
   },
 })
