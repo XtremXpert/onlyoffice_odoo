@@ -17,12 +17,12 @@ msgstr ""
 
 #. module: onlyoffice_odoo
 #: model_terms:ir.ui.view,arch_db:onlyoffice_odoo.res_config_settings_view_form
-msgid "<i class=\"fa fa-arrow-right\"/> Learn more"
+msgid "<i class=\"oi\" data-icon=\"arrow_forward\"/> Learn more"
 msgstr ""
 
 #. module: onlyoffice_odoo
 #: model_terms:ir.ui.view,arch_db:onlyoffice_odoo.res_config_settings_view_form
-msgid "<i class=\"fa fa-arrow-right\"/> Suggest a feature"
+msgid "<i class=\"oi\" data-icon=\"arrow_forward\"/> Suggest a feature"
 msgstr ""
 
 #. module: onlyoffice_odoo

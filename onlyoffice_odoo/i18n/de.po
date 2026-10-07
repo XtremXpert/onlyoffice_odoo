@@ -17,13 +17,13 @@ msgstr ""
 
 #. module: onlyoffice_odoo
 #: model_terms:ir.ui.view,arch_db:onlyoffice_odoo.res_config_settings_view_form
-msgid "<i class=\"fa fa-arrow-right\"/> Learn more"
-msgstr "<i class=\"fa fa-arrow-right\"/> Mehr erfahren"
+msgid "<i class=\"oi\" data-icon=\"arrow_forward\"/> Learn more"
+msgstr "<i class=\"oi\" data-icon=\"arrow_forward\"/> Mehr erfahren"
 
 #. module: onlyoffice_odoo
 #: model_terms:ir.ui.view,arch_db:onlyoffice_odoo.res_config_settings_view_form
-msgid "<i class=\"fa fa-arrow-right\"/> Suggest a feature"
-msgstr "<i class=\"fa fa-arrow-right\"/> Funktion vorschlagen"
+msgid "<i class=\"oi\" data-icon=\"arrow_forward\"/> Suggest a feature"
+msgstr "<i class=\"oi\" data-icon=\"arrow_forward\"/> Funktion vorschlagen"
 
 #. module: onlyoffice_odoo
 #: model_terms:ir.ui.view,arch_db:onlyoffice_odoo.res_config_settings_view_form

@@ -14,7 +14,8 @@
       >
         <span
           t-if="this.props.isFieldExpandable(this.props.field.id)"
-          t-attf-class="o-onlyoffice-field-caret fa {{ this.state.subfields.length ? 'fa-caret-down' : 'fa-caret-right' }}"
+          class="o-onlyoffice-field-caret oi"
+          t-att-data-icon="this.state.subfields.length ? 'arrow_drop_down' : 'arrow_right'"
           role="img"
           aria-label="Show sub-fields"
           title="Show sub-fields"

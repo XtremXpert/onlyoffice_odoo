@@ -114,13 +114,13 @@ class Onlyoffice_Connector(http.Controller):
         data = attachment.read(["id", "checksum", "public", "name", "access_token"])[0]
         filename = data["name"]
 
-        can_read = attachment.check_access_rights("read", raise_exception=False) and file_utils.can_view(filename)
+        can_read = attachment.has_access("read") and file_utils.can_view(filename)
 
         if not can_read:
             _logger.warning("POST /onlyoffice/editor/get_config - no read access: %s", attachment_id)
             raise Exception("cant read")
 
-        can_write = attachment.check_access_rights("write", raise_exception=False) and file_utils.can_edit(filename)
+        can_write = attachment.has_access("write") and file_utils.can_edit(filename)
 
         config = self.prepare_editor_values(attachment, access_token, can_write)
         _logger.info("POST /onlyoffice/editor/get_config - success: %s", attachment_id)

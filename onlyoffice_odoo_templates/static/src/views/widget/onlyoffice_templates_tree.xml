@@ -5,7 +5,7 @@
     <div class="o-onlyoffice-templates-tree">
       <t t-if="this.state.loading">
         <div class="text-center p-4">
-          <i class="fa fa-refresh fa-spin" />
+          <i class="oi" data-icon="refresh" />
           Loading templates...
         </div>
       </t>
@@ -27,7 +27,7 @@
                         t-on-change="(ev) => this.toggleTemplate(file.path, ev.target.checked)"
                       />
                       <button class="btn btn-sm btn-link" t-on-click="() => this.previewTemplate(file.path)">
-                        <i class="fa fa-eye" />
+                        <i class="oi" data-icon="visibility" />
                       </button>
                       <span t-out="file.name" />
                     </label>

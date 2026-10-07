@@ -16,7 +16,7 @@
               name="associated_report"
               type="object"
               invisible="not report_id"
-              icon='fa-code'
+              icon='code'
               class="oe_stat_button"
             >
               <div class="o_field_widget o_stat_info">
@@ -27,7 +27,7 @@
               name="create_action"
               type="object"
               invisible="report_id"
-              icon="fa-plus-square"
+              icon="add_box"
               class="oe_stat_button"
             >
               <div class="o_field_widget o_stat_info">
@@ -38,7 +38,7 @@
               name="unlink_action"
               type="object"
               invisible="not report_id"
-              icon="fa-minus-square"
+              icon="indeterminate_check_box"
               class="oe_stat_button"
             >
               <div class="o_field_widget o_stat_info">
@@ -179,7 +179,7 @@
         <field name="attachment_id" />
         <field name="create_uid" />
         <field name="create_date" />
-        <button name="open_template_editor" type="object" string="Edit Template" icon="fa-edit" class="btn-primary" />
+        <button name="open_template_editor" type="object" string="Edit Template" icon="edit" class="btn-primary" />
       </list>
     </field>
   </record>
