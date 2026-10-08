@@ -7,7 +7,7 @@
     "author": "ONLYOFFICE",
     "website": "https://www.onlyoffice.com/office-for-odoo?utm_source=odoo_market",
     "category": "Productivity",
-    "version": "20.0.6.4.1",
+    "version": "20.0.6.4.2",
     "license": "LGPL-3",
     "support": "support@onlyoffice.com",
     "depends": ["base", "mail"],
