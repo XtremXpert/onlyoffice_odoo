@@ -12,24 +12,12 @@
       <form string="Create template">
         <sheet>
           <div class="oe_button_box" name="button_box" groups="base.group_system">
-            <button
-              name="associated_report"
-              type="object"
-              invisible="not report_id"
-              icon='code'
-              class="oe_stat_button"
-            >
+            <button name="associated_report" type="object" invisible="not report_id" icon='code' class="oe_stat_button">
               <div class="o_field_widget o_stat_info">
                 <span class="o_stat_text">Report</span>
               </div>
             </button>
-            <button
-              name="create_action"
-              type="object"
-              invisible="report_id"
-              icon="add_box"
-              class="oe_stat_button"
-            >
+            <button name="create_action" type="object" invisible="report_id" icon="add_box" class="oe_stat_button">
               <div class="o_field_widget o_stat_info">
                 <span class="o_stat_text">Create associated report</span>
               </div>

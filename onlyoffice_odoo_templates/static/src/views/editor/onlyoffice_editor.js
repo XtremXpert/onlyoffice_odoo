@@ -1,16 +1,15 @@
 /** @odoo-module **/
 // Copyright (C) 2026 Ascensio System SIA
 
+import { Component, onMounted, onWillUnmount, proxy, useProps } from "@odoo/owl"
 import { cookie } from "@web/core/browser/cookie"
 import { router } from "@web/core/browser/router"
 import { _t } from "@web/core/l10n/translation"
 import { rpc } from "@web/core/network/rpc"
 import { registry } from "@web/core/registry"
 import { useBus, useService } from "@web/core/utils/hooks"
-import { ExportData } from "./onlyoffice_editor_export_data"
-
-import { Component, onMounted, onWillUnmount, proxy, useProps } from "@odoo/owl"
 import { standardActionServiceProps } from "@web/webclient/actions/action_plugin"
+import { ExportData } from "./onlyoffice_editor_export_data"
 
 class TemplateEditor extends Component {
   // Odoo 20 / OWL 3 : les actions client déclarent leurs props

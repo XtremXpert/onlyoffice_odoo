@@ -1,6 +1,7 @@
 /** @odoo-module **/
 // Copyright (C) 2026 Ascensio System SIA
 
+import { Component, onWillStart, proxy, t, useProps, useSubEnv } from "@odoo/owl"
 import { OnlyofficePreview } from "@onlyoffice_odoo/views/preview/onlyoffice_preview"
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog"
 import { Dialog } from "@web/core/dialog/dialog"
@@ -14,8 +15,6 @@ import { useService } from "@web/core/utils/hooks"
 import { SearchModel } from "@web/search/search_model"
 import { getDefaultConfig } from "@web/views/view"
 import { FolderSelectionDialog } from "./folder_selection_dialog"
-
-import { Component, onWillStart, proxy, t, useProps, useSubEnv } from "@odoo/owl"
 
 export class TemplateDialog extends Component {
   // Odoo 20 / OWL 3 : props déclarées par useProps
@@ -60,7 +59,7 @@ export class TemplateDialog extends Component {
       view: useService("view"),
     })
 
-    // useChildSubEnv n'existe plus : useSubEnv s'applique aussi aux enfants
+    // UseChildSubEnv n'existe plus : useSubEnv s'applique aussi aux enfants
     useSubEnv({ searchModel: this.model })
 
     this.dp = new KeepLast()

@@ -5,7 +5,7 @@ import os
 
 
 class Format:
-    def __init__(self, name, type, actions=None, convert=None, mime=None):
+    def __init__(self, name, type, actions=None, convert=None, mime=None):  # pylint: disable=redefined-builtin
         if actions is None:
             actions = []
         if convert is None:

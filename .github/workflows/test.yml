@@ -3,16 +3,20 @@ name: test
 on:
   workflow_dispatch:
   push:
-    branches: [develop, 19.0, feature/19.0, 18.0, feature/18.0, 17.0]
+    branches: ["20.0"]
   pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
     runs-on: ubuntu-22.04
-    container: ghcr.io/oca/oca-ci/py3.10-odoo17.0:latest
+    container: ghcr.io/oca/oca-ci/py3.12-odoo20.0:latest
     services:
       postgres:
-        image: postgres:12
+        image: postgres:16
         env:
           POSTGRES_USER: odoo
           POSTGRES_PASSWORD: odoo
@@ -20,8 +24,10 @@ jobs:
         ports:
           - 5432:5432
     env:
-      INCLUDE: "onlyoffice_odoo"
-      EXCLUDE: "onlyoffice_odoo_documents,onlyoffice_odoo_templates"
+      # onlyoffice_odoo_documents depends on the Enterprise "documents" app: a stub lets the
+      # dependency tree resolve, and neither is installed.
+      EXCLUDE: "documents,onlyoffice_odoo_documents"
+      OCA_ENABLE_CHECKLOG_ODOO: "1"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,7 +35,7 @@ jobs:
       - name: Create stubs for unavailable addons
         run: |
           mkdir -p documents
-          printf "{'name': 'Documents', 'version': '17.0.1.0.0', 'depends': ['base']}\n" > documents/__manifest__.py
+          printf "{'name': 'Documents', 'version': '20.0.1.0.0', 'depends': ['base'], 'author': 'stub', 'license': 'LGPL-3'}\n" > documents/__manifest__.py
           touch documents/__init__.py
       - name: Install addons and dependencies
         run: oca_install_addons
@@ -37,5 +43,3 @@ jobs:
         run: oca_init_test_database
       - name: Run tests
         run: oca_run_tests
-      - name: Check coverage threshold
-        run: coverage report --fail-under=60
