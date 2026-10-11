@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <record id="onlyoffice_document_list" model="ir.ui.view">
+    <field name="name">onlyoffice.document.list</field>
+    <field name="model">ir.attachment</field>
+    <field name="arch" type="xml">
+      <list string="Mes documents ONLYOFFICE" create="0" edit="0">
+        <field name="name" />
+        <field name="create_uid" />
+        <field name="create_date" />
+        <field name="file_size" string="Taille" />
+        <button name="action_open_onlyoffice" type="object" string="Ouvrir" icon="open_in_new" />
+      </list>
+    </field>
+  </record>
+
+  <record id="onlyoffice_document_search" model="ir.ui.view">
+    <field name="name">onlyoffice.document.search</field>
+    <field name="model">ir.attachment</field>
+    <field name="arch" type="xml">
+      <search string="Documents ONLYOFFICE">
+        <field name="name" />
+        <filter name="my_documents" string="Les miens" domain="[('create_uid', '=', uid)]" />
+        <separator />
+        <filter name="group_create_uid" string="Créé par" context="{'group_by': 'create_uid'}" />
+      </search>
+    </field>
+  </record>
+
+  <record id="action_onlyoffice_documents" model="ir.actions.act_window">
+    <field name="name">Mes documents</field>
+    <field name="res_model">ir.attachment</field>
+    <field name="view_mode">list</field>
+    <field name="domain">[('onlyoffice_created', '=', True)]</field>
+    <field name="search_view_id" ref="onlyoffice_document_search" />
+    <field name="context">{'search_default_my_documents': 1}</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">Aucun document pour l'instant</p>
+      <p>Créez un document vierge via « Nouveau document » et éditez-le dans ONLYOFFICE.</p>
+    </field>
+  </record>
+</odoo>

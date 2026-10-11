@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <menuitem
+    id="menu_onlyoffice_root"
+    name="ONLYOFFICE"
+    web_icon="onlyoffice_odoo_create,static/description/icon.png"
+    sequence="95"
+    groups="base.group_user"
+  />
+
+  <menuitem
+    id="menu_onlyoffice_new"
+    name="Nouveau document"
+    parent="menu_onlyoffice_root"
+    action="action_onlyoffice_create_wizard"
+    sequence="10"
+  />
+
+  <menuitem
+    id="menu_onlyoffice_docs"
+    name="Mes documents"
+    parent="menu_onlyoffice_root"
+    action="action_onlyoffice_documents"
+    sequence="20"
+  />
+</odoo>
