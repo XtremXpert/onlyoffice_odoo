@@ -37,7 +37,7 @@ class OnlyOfficeTemplate(models.Model):
     name = fields.Char(required=True, string="Template Name")
     template_model_id = fields.Many2one("ir.model", string="Select Model")
     template_model_name = fields.Char(string="Model Description", compute="_compute_template_model_fields", store=True)
-    template_model_related_name = fields.Char("Model Description", related="template_model_id.name")
+    template_model_related_name = fields.Char("Model Description (related)", related="template_model_id.name")
     template_model_model = fields.Char(
         string="Technical model name", compute="_compute_template_model_fields", store=True
     )

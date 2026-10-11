@@ -6,7 +6,12 @@
       <div class="container-fluid">
         <div class="row mb-3" t-if="!this.state.loading and !this.state.error and this.state.total > this.state.limit">
           <div class="col text-center o-pager">
-            <Pager offset="this.state.offset" limit="this.state.limit" total="this.state.total" onUpdate.bind="this.onPageChange" />
+            <Pager
+              offset="this.state.offset"
+              limit="this.state.limit"
+              total="this.state.total"
+              onUpdate.bind="this.onPageChange"
+            />
           </div>
         </div>
         <div class="row mb-3 justify-content-end" t-if="!this.state.loading and !this.state.error">
@@ -123,7 +128,8 @@
                 t-attf-class="{{ this.state.form and form.id == this.state.form.id ? 'o_onlyoffice_record_selected' : '' }}"
               >
                 <i
-                  class="o_onlyoffice_record_selector oi" data-icon="circle"
+                  class="o_onlyoffice_record_selector oi"
+                  data-icon="circle"
                   title="Select document"
                   t-on-click="() => this.selectForm(form)"
                 />
