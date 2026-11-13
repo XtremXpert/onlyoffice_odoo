@@ -63,7 +63,16 @@ class ResConfigSettings(models.TransientModel):
         )
 
         if settings_changed:
-            if not current_demo_state and not self.doc_server_demo:
+            # On ne joint le serveur que si son adresse change réellement. Sans
+            # cette condition, l'enregistrement des réglages de n'importe quelle
+            # application (projet, vente, VoIP…) interrogeait le serveur de
+            # documents : hors ligne l'appel échouait et cassait l'enregistrement.
+            server_changed = (self.doc_server_public_url, self.doc_server_inner_url) != (
+                current_public_url,
+                current_inner_url,
+            )
+            has_address = bool(self.doc_server_public_url or self.doc_server_inner_url)
+            if server_changed and has_address and not current_demo_state and not self.doc_server_demo:
                 validation_utils.settings_validation(self)
             self.save_config_values()
 
